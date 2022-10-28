@@ -9,11 +9,16 @@
 
 
 from flask import Flask, render_template, request
+
 import pandas as pd
 import json
 import requests
 import sys
 import math
+
+
+
+
 
 app = Flask(__name__)
 
@@ -21,6 +26,17 @@ app = Flask(__name__)
 def form():
     return render_template('form.html')
 
+@app.route('/')
+def upload():
+    return render_template("file_form_upload.html")
+
+
+@app.route('/success', methods = ['POST'])
+def success():
+    if request.method == 'POST':
+        f = request.files['file']
+        f.save(f.filename)
+        return render_template("success.html", name = f.filename)
 
 @app.route('/data/', methods=['POST', 'GET'])
 def data():
@@ -28,7 +44,8 @@ def data():
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
     if request.method == 'POST':
         form_data = request.form
-        print(form_data.items())
+        for i, v in form_data.items():
+            print(i,v)
         ##makedir(form_data)
         for i, v in form_data.items():
             print(i,v)
