@@ -9,7 +9,7 @@
 
 
 from flask import Flask, render_template, request\
-from werkzeug import secure_filename
+
 
 
 app = Flask(__name__)
@@ -27,11 +27,11 @@ def data():
     if request.method == 'POST':
         form_data = request.form
         print(form_data.items())
-        makedir(form_data)
+        ##makedir(form_data)
         return render_template('data.html', form_data=form_data)
 
 app.run(host='localhost', port=5000)
 
 
-def makedir(form_data):
-    print(form_data.items())
+##def makedir(form_data):
+    ##print(form_data.items())
