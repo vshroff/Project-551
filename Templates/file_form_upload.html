@@ -4,14 +4,16 @@
 </head>
 <body>
     <form action = "/success" method = "post" enctype="multipart/form-data">
+         <p>new directory name<input type = "text" name = "MkdirName" /></p>
+        <button type="submit" formaction="/data">submit</button>
         <input type="file" name="file" />
         <input type = "submit" value="Upload">
-         <p>new directory name<input type = "text" name = "Name" /></p>
-        <input type="file" id="file" name="file" accept=".csv" multiple />
-    <p>
-       <button type="submit" formaction="/data">Submit to another page</button>
-        <p>list directory<input type = "text" name = "listName" /></p>
-      <button type="submit" formaction="/display">Submit to another page</button>
+         <p>directory name<input type = "text" name = "loadDataName" /></p>
+        <p>file name<input type = "text" name = "filename" /></p>
+       <button type="submit" formaction="/data">submit</button>
+        <p>list directory<input type = "text" name = "list" /></p>
+      <button type="submit" formaction="/display">click for ls</button>
+
     </form>
 
 </body>
