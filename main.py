@@ -83,9 +83,5 @@ def loadData(name, filename):
     db = json.loads(path1)
     q = json.dumps(db)
     r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/.json'.format('cacoa'), data = q)
-
-
-def makedir(dirname):
-    url = 'https://project551-a12dc-default-rtdb.firebaseio.com/{}/.json'.format(dirname)
-
-
+#def makedir(form_data):
+    ##print(form_data.items())
