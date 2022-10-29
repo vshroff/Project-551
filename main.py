@@ -67,18 +67,21 @@ def loadData(name, filename):
             x = data_set.iloc[((i-1)*100+1):(i*100)+1, :].to_json(orient="index")
         db = json.loads(x)
         q = json.dumps(db)
-
+        # print(q)
         f = open('sample.json','w')
         f.write(q)
         f.close()
         name1 = "data"+str(i)
-        p = "p"+str(i)
+        p =  "p"+str(i)
         url = 'https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/.json'.format(name1)
         partiton_path += '"{}":"https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/.json",'.format(p,name1)
         r1 = requests.put(url, data = q) 
+        print(r1.text)
     path1 = partiton_path[:-1]
-    print(path1)
+    # print(path1)
     path1 = "{"+path1+"}"
-    r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/.json'.format(name1), data = json.dumps(path1))
+    db = json.loads(path1)
+    q = json.dumps(db)
+    r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/.json'.format('cacoa'), data = q)
 #def makedir(form_data):
     ##print(form_data.items())
