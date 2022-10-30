@@ -19,6 +19,11 @@ app = Flask(__name__, static_folder='staticfiles')
 
 DATASET_PATH = "https://project551-a12dc-default-rtdb.firebaseio.com/"
 
+def cat(filename):
+    datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
+    r1 = requests.get(datanode_path)
+    return r1.json()
+
 def rm(filename):
     datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
     namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
@@ -125,9 +130,13 @@ def data():
             res = listFiles(form_data.get('list'))
             return render_template('display.html', form_data=res)
         elif 'remove' in form_data and form_data.get('remove'):
-            print('file to rm' + form_data.get('remove'))
+            print('file to rm ' + form_data.get('remove'))
             r = rm(form_data.get('remove'))
             print(r)
+        elif 'cat' in form_data and form_data.get('cat'):
+            print('file to cat ' + form_data.get('cat'))
+            res = cat(form_data.get('cat'))
+            return render_template('cat.html', form_data=res)
         
         return render_template('success.html')
 
