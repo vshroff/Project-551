@@ -19,6 +19,11 @@ app = Flask(__name__, static_folder='staticfiles')
 
 DATASET_PATH = "https://project551-a12dc-default-rtdb.firebaseio.com/"
 
+def getPartitions(filename):
+    namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
+    r1 = requests.get(namenode_path)
+    return r1.json()
+
 def cat(filename):
     datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
     r1 = requests.get(datanode_path)
@@ -137,6 +142,11 @@ def data():
             print('file to cat ' + form_data.get('cat'))
             res = cat(form_data.get('cat'))
             return render_template('cat.html', form_data=res)
+        elif 'getpart' in form_data and form_data.get('getpart'):
+            print('file to getpart ' + form_data.get('getpart'))
+            res = getPartitions(form_data.get('getpart'))
+            print(res)
+            return render_template('getpart.html', form_data=res)
         
         return render_template('success.html')
 
