@@ -1,13 +1,3 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and setting
-
-# Press the green button in the gutter to run the script
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
-
-
 import json
 import math
 import pandas as pd
@@ -48,7 +38,6 @@ def rm(filename):
 def makedir(dirname):
     datanode_path = DATASET_PATH + 'datanode/{}/.json'.format(dirname)
     namenode_path = DATASET_PATH + 'namenode/{}/.json'.format(dirname)
-    #data = json.dumps(json.loads("{['0']}"))
     data = json.loads('{"zero":0}')
     print(type(data))
     data = json.dumps(data)
@@ -78,7 +67,6 @@ def loadData(name, filename):
             x = data_set.iloc[((i - 1) * 100 + 1):(i * 100) + 1, :].to_json(orient="index")
         db = json.loads(x)
         q = json.dumps(db)
-        # print(q)
         f = open('sample.json', 'w')
         f.write(q)
         f.close()
@@ -91,7 +79,6 @@ def loadData(name, filename):
         r1 = requests.put(url, data=q)
         print(r1.text)
     path1 = partiton_path[:-1]
-    # print(path1)
     path1 = "{" + path1 + "}"
     db = json.loads(path1)
     q = json.dumps(db)
