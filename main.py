@@ -115,13 +115,13 @@ def data():
         for i, v in form_data.items():
             print(i, v)
         print(form_data.get('MkdirName'))
-        if 'MkdirName' in form_data and form_data.get('MkdirName') :
+        if 'MkdirName' in form_data and form_data.get('MkdirName'):
             r = makedir(form_data.get('MkdirName'))
             print(r)
         elif 'loadDataName' in form_data and 'filename' in form_data and form_data.get('loadDataName') and form_data.get('filename') :
             loadData(form_data.get('loadDataName'), form_data.get('filename'))
             return render_template('data.html', form_data=form_data)
-        elif 'list' in form_data and form_data.get('list') :
+        elif 'list' in form_data and form_data.get('list'):
             res = listFiles(form_data.get('list'))
             return render_template('display.html', form_data=res)
         elif 'remove' in form_data and form_data.get('remove'):
@@ -149,6 +149,7 @@ app.run(host='localhost', port=5000)
 
 
 def listFiles(filePath):
+    print("hyello")
     response = requests.get(
         DATASET_PATH + '/namenode/{}/.json?print=pretty'.format(
             filePath))
