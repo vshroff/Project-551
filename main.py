@@ -19,6 +19,21 @@ app = Flask(__name__)
 
 DATASET_PATH = "https://project551-a12dc-default-rtdb.firebaseio.com/"
 
+def rm(filename):
+    datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
+    namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
+    r1 = requests.delete(datanode_path)
+    r2 = requests.delete(namenode_path)
+    print(r1.url)
+    print(r2.url)
+    print(r1.text)
+    print(r2.text)
+    if r1.status_code == 200 and r2.status_code == 200:
+        return 'yes'
+    else:
+        return "no"
+
+
 
 def makedir(dirname):
     datanode_path = DATASET_PATH + 'datanode/{}/.json'.format(dirname)
@@ -99,16 +114,21 @@ def data():
 
         for i, v in form_data.items():
             print(i, v)
-
-        if 'MkdirName' in form_data:
+        print(form_data.get('MkdirName'))
+        if 'MkdirName' in form_data and form_data.get('MkdirName') :
             r = makedir(form_data.get('MkdirName'))
             print(r)
-        elif 'loadDataName' in form_data and 'filename' in form_data:
+        elif 'loadDataName' in form_data and 'filename' in form_data and form_data.get('loadDataName') and form_data.get('filename') :
             loadData(form_data.get('loadDataName'), form_data.get('filename'))
             return render_template('data.html', form_data=form_data)
-        elif 'list' in form_data:
+        elif 'list' in form_data and form_data.get('list') :
             res = listFiles(form_data.get('list'))
             return render_template('display.html', form_data=res)
+        elif 'remove' in form_data and form_data.get('remove'):
+            print('file to rm' + form_data.get('remove'))
+            r = rm(form_data.get('remove'))
+            print(r)
+        
         return render_template('success.html')
 
 
