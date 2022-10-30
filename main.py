@@ -22,17 +22,10 @@ def cat(filename):
 def rm(filename):
     datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
     namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
-    r1 = requests.delete(datanode_path)
-    r2 = requests.delete(namenode_path)
-    print(r1.url)
-    print(r2.url)
-    print(r1.text)
-    print(r2.text)
-    if r1.status_code == 200 and r2.status_code == 200:
-        return 'yes'
-    else:
-        return "no"
-
+    r1 = requests.get(namenode_path).json()
+    requests.delete(namenode_path)
+    for key, value in r1.items():
+        requests.delete(value)
 
 
 def makedir(dirname):
