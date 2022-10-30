@@ -5,6 +5,15 @@
 <body>
   <form action = "/success" method = "post" enctype="multipart/form-data">
     <div1>
+    <p>Select Database:</p>
+    </div1>
+    <div1>
+    <input type = "radio" id = "firebase" name = "database" value = "firebase">
+    <label for = "firebase">Firebase</label>
+    <input type = "radio" id="mysql" name="database" value="mysql">
+    <label for = "mysql">MySQL</label><br><br>
+    </div1>
+    <div1>
       <span>Make directory <input type = "text" name = "MkdirName" placeholder="New directory name"/></span>
       <span><button type="submit" formaction="/data">Submit</button></span>
     </div1>

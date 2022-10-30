@@ -27,6 +27,11 @@ input[type=text] {
   border-radius: 4px;
 }
 
+input[type=radio] {
+  border: 2px solid dodgerblue;
+  border-radius: 4px;
+}
+
 
 /*title {
   font-family: Georgia, serif;
