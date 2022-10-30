@@ -15,9 +15,12 @@ def getPartitions(filename):
     return r1.json()
 
 def cat(filename):
-    datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
-    r1 = requests.get(datanode_path)
-    return r1.json()
+    output = []
+    namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
+    r1 = requests.get(namenode_path).json()
+    for key,value in r1.items():
+        output.append(requests.get(value).json())
+    return output
 
 def rm(filename):
     datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
