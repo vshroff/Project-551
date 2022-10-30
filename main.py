@@ -77,10 +77,10 @@ def loadData(name, filename):
         f = open('sample.json', 'w')
         f.write(q)
         f.close()
-        name1 = "data" + str(i)
+        name1 = filename.split('.')[0] + str(i)
         p = "p" + str(i)
-        url = 'https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/.json'.format(name1)
-        partiton_path += '"{}":"https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/.json",'.format(p,
+        url = 'https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json'.format(name,name1)
+        partiton_path += '"{}":"https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json",'.format(p,name,
                                                                                                                  name1)
         r1 = requests.put(url, data=q)
         print(r1.text)
@@ -89,7 +89,7 @@ def loadData(name, filename):
     path1 = "{" + path1 + "}"
     db = json.loads(path1)
     q = json.dumps(db)
-    r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/.json'.format('cacoa'), data=q)
+    r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/{}/.json'.format(name,filename.split('.')[0]), data=q)
 
 
 @app.route('/form')
