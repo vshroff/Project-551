@@ -19,6 +19,11 @@ app = Flask(__name__, static_folder='staticfiles')
 
 DATASET_PATH = "https://project551-a12dc-default-rtdb.firebaseio.com/"
 
+def getPartitions(filename):
+    namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
+    r1 = requests.get(namenode_path)
+    return r1.json()
+
 def cat(filename):
     datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
     r1 = requests.get(datanode_path)
@@ -79,9 +84,10 @@ def loadData(name, filename):
         f.close()
         name1 = filename.split('.')[0] + str(i)
         p = "p" + str(i)
-        url = 'https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json'.format(name,name1)
-        partiton_path += '"{}":"https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json",'.format(p,name,
-                                                                                                                 name1)
+        url = 'https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json'.format(name, name1)
+        partiton_path += '"{}":"https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json",'.format(p,
+                                                                                                                    name,
+                                                                                                                    name1)
         r1 = requests.put(url, data=q)
         print(r1.text)
     path1 = partiton_path[:-1]
@@ -89,7 +95,7 @@ def loadData(name, filename):
     path1 = "{" + path1 + "}"
     db = json.loads(path1)
     q = json.dumps(db)
-    r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/{}/.json'.format(name,filename.split('.')[0]), data=q)
+    r2 = requests.put('https://project551-a12dc-default-rtdb.firebaseio.com/namenode/{}/{}/.json'.format(name,filename.split('.')[0]),data=q)
 
 
 @app.route('/form')
@@ -137,6 +143,11 @@ def data():
             print('file to cat ' + form_data.get('cat'))
             res = cat(form_data.get('cat'))
             return render_template('cat.html', form_data=res)
+        elif 'getpart' in form_data and form_data.get('getpart'):
+            print('file to getpart ' + form_data.get('getpart'))
+            res = getPartitions(form_data.get('getpart'))
+            print(res)
+            return render_template('getpart.html', form_data=res)
         
         return render_template('success.html')
 
