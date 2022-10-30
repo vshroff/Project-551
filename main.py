@@ -14,6 +14,11 @@ def getPartitions(filename):
     r1 = requests.get(namenode_path)
     return r1.json()
 
+def readPartitions(filename,partition):
+    datanode_path = DATASET_PATH + 'datanode/' + filename + partition+'/.json'
+    r1 = requests.get(datanode_path)
+    return r1.json()
+
 def cat(filename):
     output = []
     namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
@@ -131,6 +136,10 @@ def data():
             res = getPartitions(form_data.get('getpart'))
             print(res)
             return render_template('getpart.html', form_data=res)
+        elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get('partition'):
+            print('file to readpart ' + form_data.get('readpart'))
+            res = readPartitions(form_data.get('readpart'),form_data.get('partition'))
+            return render_template('readpart.html', form_data=res)
         
         return render_template('success.html')
 
