@@ -1,0 +1,98 @@
+body {
+  background: linen;
+  margin-top: 100px;
+  margin-left: 100px;
+  margin-right: 100px;
+  margin-down: 100px;
+  }
+
+button {
+  /*background-color: #4CAF50; *//* Green *//*
+  border: none;
+  color: white;
+  padding: 10px 23px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 12px;*/
+  font-weight: bold;
+  color: dodgerblue;
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 3px;
+}
+
+input[type=text] {
+  border: 2px solid dodgerblue;
+  border-radius: 4px;
+}
+
+
+/*title {
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  color: Red;
+  }*/
+
+/*p {
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  color: DarkSlateGray;
+  }*/
+
+div1 {
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  color: black;
+
+  }
+
+div2 {
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  color: black ;
+
+  }
+
+div3 {
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  color: black ;
+
+  }
+
+div4 {
+  font-family: Georgia, serif;
+  font-size: 1.2em;
+  color: black ;
+
+  }
+
+input[type=button], input[type=submit], input[type=reset] {
+  /*background-color: green;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  margin: 4px 2px;
+  cursor: pointer;*/
+  font-weight: bold;
+  color: dodgerblue;
+  padding: 0.5em;
+  border: thin solid grey;
+  border-radius: 3px;
+}
+
+
+
+input[type=text]:focus {
+  background-color: lightblue;
+}
+
+input::file-selector-button {
+    font-weight: bold;
+    color: dodgerblue;
+    padding: 0.5em;
+    border: thin solid grey;
+    border-radius: 3px;
+}
