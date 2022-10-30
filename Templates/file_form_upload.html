@@ -1,11 +1,31 @@
 <html>
 <head>
-    <title>upload</title>
+  <title>upload</title>
 </head>
 <body>
-    <form action = "/success" method = "post" enctype="multipart/form-data">
-        <input type="file" name="file" />
-        <input type = "submit" value="Upload">
-    </form>
+  <form action = "/success" method = "post" enctype="multipart/form-data">
+    <div>
+      <span>Make directory <input type = "text" name = "MkdirName" placeholder="New directory name"/></span>
+      <span><button type="submit" formaction="/data">Submit</button></span>
+    </div>
+    <br><br>
+    <div>
+      <span>Add a file to the database </span>
+      <span><input type="file" name="file" /></span>
+      <span><input type = "submit" value="Upload File"></span>
+    </div>
+    <br><br>
+    <div>
+      <span>Load Data <input type = "text" name = "loadDataName" placeholder="Directory to load into" /></span>
+      <span>File name to load <input type = "text" name = "filename" placeholder="Filename to load"/></span>
+      <span><button type="submit" formaction="/data">Submit</button></span>
+    </div>
+    <br><br>
+    <div>
+      <span>List Directory <input type = "text" name = "list" placeholder="Directory to ls from"/></span>
+      <span><button type="submit" formaction="/display">List Content</button></span>
+    </div>
+    <br><br>
+  </form>
 </body>
 </html>
