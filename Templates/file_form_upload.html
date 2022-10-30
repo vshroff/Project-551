@@ -1,35 +1,35 @@
 <html>
 <head>
-  <title>upload</title>
+    <link rel="stylesheet" href='/staticfiles/main.css' />
 </head>
 <body>
   <form action = "/success" method = "post" enctype="multipart/form-data">
-    <div>
+    <div1>
       <span>Make directory <input type = "text" name = "MkdirName" placeholder="New directory name"/></span>
       <span><button type="submit" formaction="/data">Submit</button></span>
-    </div>
+    </div1>
     <br><br>
-    <div>
+    <div2>
       <span>Add a file to the database </span>
       <span><input type="file" name="file" /></span>
-      <span><input type = "submit" value="Upload File"></span>
-    </div>
+      <span><input type = "submit" value="Upload File" /></span>
+    </div2>
     <br><br>
-    <div>
+    <div3>
       <span>Load Data <input type = "text" name = "loadDataName" placeholder="Directory to load into" /></span>
       <span>File name to load <input type = "text" name = "filename" placeholder="Filename to load"/></span>
       <span><button type="submit" formaction="/data">Submit</button></span>
-    </div>
+    </div3>
     <br><br>
-    <div>
+    <div4>
       <span>List Directory <input type = "text" name = "list" placeholder="Directory to ls from"/></span>
       <span><button type="submit" formaction="/data">List Content</button></span>
-    </div>
+    </div4>
     <br><br>
-    <div>
+    <div5>
       <span>Remove <input type = "text" name = "remove" placeholder="Object to delete"/></span>
-      <span><button type="submit" formaction="/data">Submit </button></span>
-    </div>
+      <span><button type="submit" formaction="/data">Submit</button></span>
+    </div5>
     <br><br>
   </form>
 </body>

@@ -15,7 +15,7 @@ import requests
 import sys
 from flask import Flask, render_template, request
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='staticfiles')
 
 DATASET_PATH = "https://project551-a12dc-default-rtdb.firebaseio.com/"
 
