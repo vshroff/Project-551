@@ -56,16 +56,18 @@ def makedir(dirname):
 
 
 
-def loadData(name, filename):
+def loadData(name, filename, num_partitions):
     data_set = pd.read_csv(filename)
     length = data_set.shape[0]
-    num_partitions = math.ceil(length / 100)
+    #num_partitions = math.ceil(length / 100)
+    num_rows_per_part = math.ceil(length/num_partitions)
+    #leftover_rows = length - (num_partitions*num_rows_per_part)
     partiton_path = ""
     for i in range(1, num_partitions + 1):
         if i == num_partitions:
-            x = data_set.iloc[((i - 1) * 100 + 1):len(data_set) + 1, :].to_json(orient="index")
+            x = data_set.iloc[((i - 1) * num_rows_per_part + 1):len(data_set) + 1, :].to_json(orient="index")
         else:
-            x = data_set.iloc[((i - 1) * 100 + 1):(i * 100) + 1, :].to_json(orient="index")
+            x = data_set.iloc[((i - 1) * num_rows_per_part + 1):(i * num_rows_per_part) + 1, :].to_json(orient="index")
         db = json.loads(x)
         q = json.dumps(db)
         f = open('sample.json', 'w')
@@ -117,8 +119,8 @@ def data():
         if 'MkdirName' in form_data and form_data.get('MkdirName'):
             r = makedir(form_data.get('MkdirName'))
             print(r)
-        elif 'loadDataName' in form_data and 'filename' in form_data and form_data.get('loadDataName') and form_data.get('filename') :
-            loadData(form_data.get('loadDataName'), form_data.get('filename'))
+        elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get('loadDataName') and form_data.get('filename')  and form_data.get('num_partitions') :
+            loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
             return render_template('data.html', form_data=form_data)
         elif 'list' in form_data and form_data.get('list'):
             res = listFiles(form_data.get('list'))
