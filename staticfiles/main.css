@@ -3,18 +3,28 @@ body {
   margin-top: 100px;
   margin-left: 100px;
   margin-right: 100px;
-  margin-down: 100px;
+  margin-bottom: 100px;
   }
 
+h2 {
+ border: 2px solid dodgerblue;
+  border-radius: 4px;
+}
+
+pre {
+  border: 2px solid dodgerblue;
+   border-radius: 4px;
+ }
+
 button {
-  /*background-color: #4CAF50; *//* Green *//*
+  /* background-color: #4CAF50;
   border: none;
   color: white;
   padding: 10px 23px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 12px;*/
+  font-size: 12px; */
   font-weight: bold;
   color: dodgerblue;
   padding: 0.5em;
@@ -23,11 +33,6 @@ button {
 }
 
 input[type=text] {
-  border: 2px solid dodgerblue;
-  border-radius: 4px;
-}
-
-input[type=radio] {
   border: 2px solid dodgerblue;
   border-radius: 4px;
 }

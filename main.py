@@ -23,32 +23,31 @@ def cat(filename):
     output = []
     namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
     r1 = requests.get(namenode_path).json()
+    return_value = ""
     for key,value in r1.items():
-        output.append(requests.get(value).json())
-    return output
+        for key2, val in value.items(): 
+            return_value+=json.dumps(requests.get(val).json(), sort_keys = True, indent = 4, separators = (',', ': '))
+    return return_value
 
 def rm(filename):
-    datanode_path = DATASET_PATH + 'datanode/' + filename + '/.json'
     namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
+    print(namenode_path)
     r1 = requests.get(namenode_path).json()
     requests.delete(namenode_path)
-    for key, value in r1.items():
-        requests.delete(value)
+    if r1:
+        for key, value in r1.items():
+            requests.delete(value)
+    else:
+        requests.delete(DATASET_PATH + 'datanode/' + filename + '/.json')
 
 
 def makedir(dirname):
     datanode_path = DATASET_PATH + 'datanode/{}/.json'.format(dirname)
     namenode_path = DATASET_PATH + 'namenode/{}/.json'.format(dirname)
     data = json.loads('{"zero":0}')
-    print(type(data))
     data = json.dumps(data)
-    print(type(data))
     r1 = requests.put(datanode_path, data=data)
     r2 = requests.put(namenode_path, data=data)
-    print(r1.url)
-    print(r2.url)
-    print(r1.text)
-    print(r2.text)
     if r1.status_code == 200 and r2.status_code == 200:
         return 'yes'
     else:
@@ -59,9 +58,7 @@ def makedir(dirname):
 def loadData(name, filename, num_partitions):
     data_set = pd.read_csv(filename)
     length = data_set.shape[0]
-    #num_partitions = math.ceil(length / 100)
     num_rows_per_part = math.ceil(length/num_partitions)
-    #leftover_rows = length - (num_partitions*num_rows_per_part)
     partiton_path = ""
     for i in range(1, num_partitions + 1):
         if i == num_partitions:
@@ -70,9 +67,7 @@ def loadData(name, filename, num_partitions):
             x = data_set.iloc[((i - 1) * num_rows_per_part + 1):(i * num_rows_per_part) + 1, :].to_json(orient="index")
         db = json.loads(x)
         q = json.dumps(db)
-        f = open('sample.json', 'w')
-        f.write(q)
-        f.close()
+       
         name1 = filename.split('.')[0] + str(i)
         p = "p" + str(i)
         url = 'https://project551-a12dc-default-rtdb.firebaseio.com/datanode/{}/{}/.json'.format(name, name1)
@@ -80,7 +75,6 @@ def loadData(name, filename, num_partitions):
                                                                                                                     name,
                                                                                                                     name1)
         r1 = requests.put(url, data=q)
-        print(r1.text)
     path1 = partiton_path[:-1]
     path1 = "{" + path1 + "}"
     db = json.loads(path1)
@@ -113,34 +107,31 @@ def data():
     if request.method == 'POST':
         form_data = request.form
 
-        for i, v in form_data.items():
-            print(i, v)
-        print(form_data.get('MkdirName'))
         if 'MkdirName' in form_data and form_data.get('MkdirName'):
             r = makedir(form_data.get('MkdirName'))
-            print(r)
+  
         elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get('loadDataName') and form_data.get('filename')  and form_data.get('num_partitions') :
             loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
             return render_template('data.html', form_data=form_data)
+
         elif 'list' in form_data and form_data.get('list'):
             res = listFiles(form_data.get('list'))
             return render_template('display.html', form_data=res)
+
         elif 'remove' in form_data and form_data.get('remove'):
-            print('file to rm ' + form_data.get('remove'))
             r = rm(form_data.get('remove'))
             print(r)
         elif 'cat' in form_data and form_data.get('cat'):
-            print('file to cat ' + form_data.get('cat'))
             res = cat(form_data.get('cat'))
-            return render_template('cat.html', form_data=res)
+            return render_template('cat.html', response=res)
+
         elif 'getpart' in form_data and form_data.get('getpart'):
-            print('file to getpart ' + form_data.get('getpart'))
             res = getPartitions(form_data.get('getpart'))
-            print(res)
             return render_template('getpart.html', form_data=res)
+
         elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get('partition'):
-            print('file to readpart ' + form_data.get('readpart'))
             res = readPartitions(form_data.get('readpart'),form_data.get('partition'))
+            print(res)
             return render_template('readpart.html', form_data=res)
         
         return render_template('success.html')
@@ -170,6 +161,8 @@ def listFiles(filePath):
     response_dict = response.json()
     print(response_dict)
     return response_dict
+
+
 
 
 
