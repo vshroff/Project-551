@@ -19,6 +19,30 @@ def readPartitions(filename,partition):
     r1 = requests.get(datanode_path)
     return r1.json()
 
+def getMaxChocolateRating(companyLocation):
+    max_ratings = []
+    getAllPartitions = getPartitions('sanjit/chocolate/flavors_of_cacao')
+    count = 1
+    for key,value in getAllPartitions.items():
+        partitoned_data = requests.get(value)
+        max_rating_partition = 0
+        data_list = partitoned_data.json()
+
+        if isinstance(data_list, type([])):
+            data_list.remove(data_list[0])
+            for l in data_list:
+                if l['CompanyLocation'] == companyLocation:
+                    max_rating_partition = max(max_rating_partition, l['Rating'])
+                    max_ratings.append(max_rating_partition) #make it outside loop
+        else:
+            for l in data_list.values():
+                if l['CompanyLocation'] == companyLocation:
+                    max_rating_partition = max(max_rating_partition, l['Rating'])
+                    max_ratings.append(max_rating_partition)
+        count = count + 1
+    return max(max_ratings)
+
+
 def cat(filename):
     output = []
     namenode_path = DATASET_PATH + 'namenode/' + filename + '/.json'
@@ -133,6 +157,11 @@ def data():
             res = readPartitions(form_data.get('readpart'),form_data.get('partition'))
             print(res)
             return render_template('readpart.html', form_data=res)
+
+        elif 'chocrate' in form_data and form_data.get('chocrate'):
+            res = getMaxChocolateRating(form_data.get('chocrate'))
+            print(res)
+            return render_template('chocRate.html', form_data=res)
         
         return render_template('success.html')
 
