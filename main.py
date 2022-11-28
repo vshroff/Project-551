@@ -62,8 +62,30 @@ def getCountries(score):
                 if l['Happiness Score'] >= int(score):
                     countries_in.append(l['Country'])
         countries.extend(countries_in)
-    print(countries)
     return countries
+
+def getLossTyres(carmodel):
+    tyres_in = []
+    tyres = []
+    getAllPartitions = getPartitions('John/cars/Car_Tyres_Dataset')
+
+    for key,value in getAllPartitions.items():
+        partitoned_data = requests.get(value)
+        data_list = partitoned_data.json()
+
+        if isinstance(data_list, type([])):
+            data_list.remove(data_list[0])
+            for l in data_list:
+                if float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:
+                    tyres_in.append(l['Tyre Brand'])
+        else:
+            for l in data_list.values():
+                if float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:
+                    tyres_in.append(l['Tyre Brand'])
+    tyres.extend(tyres_in)
+    out = [tyres[i] for i in range(len(tyres)) if i == tyres.index(tyres[i]) ]
+    return out
+
 
 
 def cat(filename):
@@ -191,6 +213,11 @@ def data():
                 res = getCountries(form_data.get('happyrate'))
                 print(res)
                 return render_template('happyrate.html', form_data=res)
+            
+            elif 'loss' in form_data and form_data.get('loss'):
+                res = getLossTyres(form_data.get('loss'))
+                print(res)
+                return render_template('loss.html', form_data=res)
         else:
             if 'MkdirName' in form_data and form_data.get('MkdirName'):
                 r = ms.makedir(form_data.get('MkdirName'))
