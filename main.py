@@ -3,8 +3,8 @@ import math
 import pandas as pd
 import requests
 import sys
-import mainSQL as ms
 from flask import Flask, render_template, request
+#import mainSQL as ms
 
 app = Flask(__name__, static_folder='staticfiles')
 
@@ -42,6 +42,28 @@ def getMaxChocolateRating(companyLocation):
                     max_ratings.append(max_rating_partition)
         count = count + 1
     return max(max_ratings)
+
+def getCountries(score):
+    countries_in = []
+    countries = []
+    getAllPartitions = getPartitions('Jane/HappinessData/WorldHappinessReport2016')
+    
+    for key,value in getAllPartitions.items():
+        partitoned_data = requests.get(value)
+        data_list = partitoned_data.json()
+
+        if isinstance(data_list, type([])):
+            data_list.remove(data_list[0])
+            for l in data_list:
+                if l['Happiness Score'] >= int(score):
+                    countries_in.append(l['Country'])
+        else:
+            for l in data_list.values():
+                if l['Happiness Score'] >= int(score):
+                    countries_in.append(l['Country'])
+        countries.extend(countries_in)
+    print(countries)
+    return countries
 
 
 def cat(filename):
@@ -164,6 +186,11 @@ def data():
                 res = getMaxChocolateRating(form_data.get('chocrate'))
                 print(res)
                 return render_template('chocRate.html', form_data=res)
+
+            elif 'happyrate' in form_data and form_data.get('happyrate'):
+                res = getCountries(form_data.get('happyrate'))
+                print(res)
+                return render_template('happyrate.html', form_data=res)
         else:
             if 'MkdirName' in form_data and form_data.get('MkdirName'):
                 r = ms.makedir(form_data.get('MkdirName'))
@@ -193,8 +220,7 @@ def data():
                 res = ms.readPartitions(form_data.get('readpart'), form_data.get('partition'))
                 print(res)
                 return render_template('readpart.html', form_data=res)
-
-        
+   
         return render_template('success.html')
 
 
