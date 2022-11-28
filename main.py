@@ -3,6 +3,7 @@ import math
 import pandas as pd
 import requests
 import sys
+import mainSQL as ms
 from flask import Flask, render_template, request
 
 app = Flask(__name__, static_folder='staticfiles')
@@ -131,37 +132,68 @@ def data():
     if request.method == 'POST':
         form_data = request.form
 
-        if 'MkdirName' in form_data and form_data.get('MkdirName'):
-            r = makedir(form_data.get('MkdirName'))
-  
-        elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get('loadDataName') and form_data.get('filename')  and form_data.get('num_partitions') :
-            loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
-            return render_template('data.html', form_data=form_data)
+        if 'database' in form_data and form_data.get('database') == 'firebase':
+            if 'MkdirName' in form_data and form_data.get('MkdirName'):
+                r = makedir(form_data.get('MkdirName'))
 
-        elif 'list' in form_data and form_data.get('list'):
-            res = listFiles(form_data.get('list'))
-            return render_template('display.html', form_data=res)
+            elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get('loadDataName') and form_data.get('filename')  and form_data.get('num_partitions') :
+                loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
+                return render_template('data.html', form_data=form_data)
 
-        elif 'remove' in form_data and form_data.get('remove'):
-            r = rm(form_data.get('remove'))
-            print(r)
-        elif 'cat' in form_data and form_data.get('cat'):
-            res = cat(form_data.get('cat'))
-            return render_template('cat.html', response=res)
+            elif 'list' in form_data and form_data.get('list'):
+                res = listFiles(form_data.get('list'))
+                return render_template('display.html', form_data=res)
 
-        elif 'getpart' in form_data and form_data.get('getpart'):
-            res = getPartitions(form_data.get('getpart'))
-            return render_template('getpart.html', form_data=res)
+            elif 'remove' in form_data and form_data.get('remove'):
+                r = rm(form_data.get('remove'))
+                print(r)
+            elif 'cat' in form_data and form_data.get('cat'):
+                res = cat(form_data.get('cat'))
+                return render_template('cat.html', response=res)
 
-        elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get('partition'):
-            res = readPartitions(form_data.get('readpart'),form_data.get('partition'))
-            print(res)
-            return render_template('readpart.html', form_data=res)
+            elif 'getpart' in form_data and form_data.get('getpart'):
+                res = getPartitions(form_data.get('getpart'))
+                return render_template('getpart.html', form_data=res)
 
-        elif 'chocrate' in form_data and form_data.get('chocrate'):
-            res = getMaxChocolateRating(form_data.get('chocrate'))
-            print(res)
-            return render_template('chocRate.html', form_data=res)
+            elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get('partition'):
+                res = readPartitions(form_data.get('readpart'),form_data.get('partition'))
+                print(res)
+                return render_template('readpart.html', form_data=res)
+
+            elif 'chocrate' in form_data and form_data.get('chocrate'):
+                res = getMaxChocolateRating(form_data.get('chocrate'))
+                print(res)
+                return render_template('chocRate.html', form_data=res)
+        else:
+            if 'MkdirName' in form_data and form_data.get('MkdirName'):
+                r = ms.makedir(form_data.get('MkdirName'))
+
+            elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get(
+                    'loadDataName') and form_data.get('filename') and form_data.get('num_partitions'):
+                ms.loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
+                return render_template('data.html', form_data=form_data)
+
+            elif 'list' in form_data and form_data.get('list'):
+                res = ms.listFiles(form_data.get('list'))
+                return render_template('display.html', form_data=res)
+
+            elif 'remove' in form_data and form_data.get('remove'):
+                r = ms.rm(form_data.get('remove'))
+                print(r)
+            elif 'cat' in form_data and form_data.get('cat'):
+                res = ms.cat(form_data.get('cat'))
+                return render_template('cat.html', response=res)
+
+            elif 'getpart' in form_data and form_data.get('getpart'):
+                res = ms.getPartitions(form_data.get('getpart'))
+                return render_template('getpart.html', form_data=res)
+
+            elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get(
+                    'partition'):
+                res = ms.readPartitions(form_data.get('readpart'), form_data.get('partition'))
+                print(res)
+                return render_template('readpart.html', form_data=res)
+
         
         return render_template('success.html')
 
