@@ -132,7 +132,7 @@ def loadData(name, filename, num_partitions):
 
         cursor = cnx.cursor()
 
-        qCreate = "CREATE TABLE {} {}".format(tabname)
+        qCreate = "CREATE TABLE {} {}".format(tabname, flavours_of_cacao)
         cursor.execute(qCreate)
         cnx.commit()
 
