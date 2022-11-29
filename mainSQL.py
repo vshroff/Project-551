@@ -3,6 +3,7 @@ import math
 import pandas as pd
 import json
 import requests
+from statistics import  mean
 
 cnx = mysql.connector.connect(user='root', password='Harshsonita@123',
                               host='localhost',
@@ -116,7 +117,8 @@ def loadData(name, filename, num_partitions):
     float, BeanType
     varchar(50), BroadBeanOrigin
     varchar(50))"""
-
+    world_happiness_report = """(Country varchar(255),Region varchar(255),HappinessRank int,HappinessScore float,LowerConfidence float,UpperConfidence float,Economy float,Family float,Health float,Freedom float,Trust float,Generosity float,DystopiaResidual float)"""
+    carstyre = """(Brand varchar(255),Model varchar(255),Submodel varchar(255),TyreBrand varchar(255),SerialNo varchar(255),Type varchar(255),LoadIndex float,Size varchar(255),SellingPrice varchar(255),OriginalPrice varchar(255))"""
     for i in range(1, num_partitions + 1):
         if i == num_partitions:
             xy = data_set.iloc[((i - 1) * num_rows_per_part + 1):len(data_set) + 1, :]
@@ -124,6 +126,7 @@ def loadData(name, filename, num_partitions):
             xy = data_set.iloc[((i - 1) * num_rows_per_part + 1):(i * num_rows_per_part) + 1, :]
 
         print(xy)
+        xy = xy.iloc[:, :-1]
         tabname = filename.split('.')[0] + str(i)
 
         cnx = mysql.connector.connect(user='root', password='Harshsonita@123',
@@ -132,7 +135,7 @@ def loadData(name, filename, num_partitions):
 
         cursor = cnx.cursor()
 
-        qCreate = "CREATE TABLE {} {}".format(tabname, flavours_of_cacao)
+        qCreate = "CREATE TABLE {} {}".format(tabname, carstyre)
         cursor.execute(qCreate)
         cnx.commit()
 
@@ -152,8 +155,9 @@ def loadData(name, filename, num_partitions):
     path1 = "{" + path1 + "}"
     db = json.loads(path1)
     q = json.dumps(db)
-    attributes = ('filename', 'num_partitions','length')
+    attributes = (filename, num_partitions,length)
     query = "INSERT INTO FILEATTRIBUTES VALUES {}".format(attributes)
+    print(query)
     cursor.execute(query)
     cnx.commit()
 
@@ -231,31 +235,90 @@ def getMaxChocolateRating(companyLocation):
     n = int(getPartitions("flavors_of_cacao.csv"))
     maxl = []
     for i in range(1, n+1):
-        tabname = "chocs" + str(i)
-        q1 = "SELECT MAX(Rating) from {} WHERE COMPANYLOCATION IS {}".format(tabname, companyLocation)
+        tabname = "flavors_of_cacao"+ str(i)
+        q1 = "SELECT MAX(Rating) from {} WHERE COMPANYLOCATION =  \"{}\"".format(tabname, companyLocation)
+        print(q1)
         cursora.execute(q1)
         res = cursora.fetchall()
+        print(res[0][0])
         maxl.append(res[0][0])
     return max(maxl)
 
 
-def getCountries(score):
+def getCountries(region):
     cnx = mysql.connector.connect(user='root', password='Harshsonita@123',
                                   host='localhost',
                                   database='new_schema', auth_plugin='mysql_native_password')
 
     cursora = cnx.cursor()
-    n = int(getPartitions())
+    n = int(getPartitions("WorldHappinessReport2016.csv"))
     countries = []
 
+
     for i in range(1, n+1):
-        tabname = "" + str(i)
-        qr = "SELECT COUNTRYNAME FROM {} WHERE SCORE >= {}".format(tabname, score)
+        tabname = "worldhappinessreport2016" + str(i)
+        qr = "SELECT MAX(DystopiaResidual) from {} WHERE REGION =  \"{}\"".format(tabname, region)
         cursora.execute(qr)
         res = cursora.fetchall()
-        countries.append(res[0])
-    return countries
+        if not res[0][0]:
+            continue
+        countries.append(res[0][0])
 
+        print(res[0][0])
+    print(countries)
+    return max(countries)
+
+
+def getCountries(region):
+    cnx = mysql.connector.connect(user='root', password='Harshsonita@123',
+                                  host='localhost',
+                                  database='new_schema', auth_plugin='mysql_native_password')
+
+    cursora = cnx.cursor()
+    n = int(getPartitions("WorldHappinessReport2016.csv"))
+    countries = []
+
+
+    for i in range(1, n+1):
+        tabname = "worldhappinessreport2016" + str(i)
+        qr = "SELECT MAX(DystopiaResidual) from {} WHERE REGION =  \"{}\"".format(tabname, region)
+        cursora.execute(qr)
+        res = cursora.fetchall()
+        if not res[0][0]:
+            continue
+        countries.append(res[0][0])
+
+        print(res[0][0])
+    print(countries)
+    return max(countries)
+
+
+
+def getLossTyres(carmodel):
+    cnx = mysql.connector.connect(user='root', password='Harshsonita@123',
+                                  host='localhost',
+                                  database='new_schema', auth_plugin='mysql_native_password')
+
+    cursora = cnx.cursor()
+    tyres_in = []
+    tyres = []
+    n = int(getPartitions('Car_Tyres_Dataset.csv'))
+
+    for i in range(1, n+1):
+        tabname = "car_tyres_dataset" + str(i)
+        Q = "select AVG(CAST(REPLACE(SellingPrice,',','') as float) - CAST(REPLACE(OriginalPrice,',','') as float))  from {} where Model= \"{}\" and (CAST(REPLACE(SellingPrice,',','') as float) - CAST(REPLACE(OriginalPrice,',','') as float)) < 0".format(tabname,carmodel)
+        ##Q = "select AVG(CAST(REPLACE(SellingPrice,',','') as float) - CAST(REPLACE(OriginalPrice,',','') as float))  from {} where Model= \"{}\" ".format(tabname,carmodel)
+
+        print(Q)
+        cursora.execute(Q)
+        res = cursora.fetchall()
+        print(res[0][0])
+        if not res[0][0]:
+            continue
+        tyres.append(abs(res[0][0]))
+
+    print(mean(tyres))
+    return mean(tyres)
 
 
 

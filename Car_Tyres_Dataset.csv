@@ -2,10 +2,8 @@ Brand,Model,Submodel,Tyre Brand,Serial No,Type,Load Index,Size,Selling Price,Ori
 Maruti,Swift Dzire,LDI (Diesel),JKTyre,Taximaxx,Tubeless,85,165/80 R 14,"3,255","3,255",5
 Maruti,Swift Dzire,LDI (Diesel),CEAT,Milage X3,Tubeless,85,165/80 R 14,"3,406","3,406",4
 Maruti,Swift Dzire,LDI (Diesel),Apollo,Amazer 4G Life,Tubeless,85,165/80 R 14,"3,490","4,319",4.5
-Maruti,Swift Dzire,LDI (Diesel),Continental,Comfort Contact CC6,Tubeless,85,165/80 R 14,"4,484","4,244",
 Maruti,Swift Dzire,LDI (Diesel),GoodYear,Assurance Duraplus 2,Tubeless,85,165/80 R 14,"3,025","3,025",4.2
 Maruti,Swift Dzire,LDI (Diesel),JKTyre,Tornado,Tubeless,85,165/80 R 14,"3,103","3,103",4.3
-Maruti,Swift Dzire,LDI (Diesel),Firestone,FR500,Tubeless,85,165/80 R 14,"3,135","3,135",
 Maruti,Swift Dzire,LDI (Diesel),JKTyre,Elanzo Touring,Tubeless,85,165/80 R 14,"3,255","3,255",4.1
 Maruti,Swift Dzire,LDI (Diesel),BridgeStone,B-Series B290,Tubeless,85,165/80 R 14,"4,250","4,250",3.7
 Maruti,Swift Dzire,LDI (Diesel),BridgeStone,Turanza T005,Tubeless,85,165/80 R 14,"4,272","4,272",3.8
@@ -13,10 +11,7 @@ Maruti,Swift Dzire,LDI (Diesel),BridgeStone,S-Series S248,Tubeless,85,165/80 R 1
 Maruti,Swift Dzire,LDI (Diesel),BridgeStone,Ecopia EP150,Tubeless,85,165/80 R 14,"4,150","4,150",5
 Maruti,Swift Dzire,LDI (Diesel),CEAT,FuelSmart,Tubeless,85,165/80 R 14,"3,617","3,617",4.6
 Maruti,Swift Dzire,LDI (Diesel),CEAT,Milage X3,Tube,85,165/80 R 14,"3,637","3,637",5
-Maruti,Swift Dzire,LDI (Diesel),Falken,Sincera845,Tubeless,85,165/80 R 14,"4,184","4,184",
 Maruti,Swift Dzire,LDI (Diesel),GoodYear,Duraplus,Tubeless,85,165/80 R 14,"3,423","3,423",3
-Maruti,Swift Dzire,LDI (Diesel),GoodYear,Assurance Duraplus,Tubeless,85,165/80 R 14,"3,464","3,464",
-Maruti,Swift Dzire,LDI (Diesel),JKTyre,UX Royale,Tubeless,85,165/80 R 14,"3,288","3,288",
 Maruti,Swift Dzire,LDI (Diesel),MRF,ZTX,Tubeless,85,165/80 R 14,"3,995","3,995",5
 Maruti,Swift Dzire,LDI (Diesel),MRF,ZV2K,Tubeless,85,165/80 R 14,"4,014","4,014",4
 Maruti,Swift Dzire,LDI (Diesel),MRF,ZLX,Tubeless,85,165/80 R 14,"4,038","4,038",4
@@ -27,24 +22,14 @@ Maruti,Swift Dzire,LXI (Petrol),Apollo,Amazer 4G Life,Tubeless,85,165/80 R 14,"3
 Maruti,Swift Dzire,VDI (Diesel),Apollo,Amazer 4G Life,Tubeless,85,165/80 R 14,"3,490","4,319",4.5
 Maruti,Swift Dzire,Vxi AT (Petrol),Apollo,Amazer 4G Life,Tubeless,85,165/80 R 14,"3,490","4,319",4.5
 Maruti,Swift Dzire,VXI (Petrol),Apollo,Amazer 4G Life,Tubeless,85,165/80 R 14,"3,490","4,319",4.5
-Maruti,Swift Dzire,ZDI (Diesel),Kumho,Ecowing KH27,Tubeless,88,185/70 R 14,"3,800","3,800",
-Maruti,Swift Dzire,ZDI (Diesel),Pirelli,Cinturato P4,Tubeless,88,185/70 R 14,"5,350","5,350",
-Maruti,Swift Dzire,ZDI (Diesel),Michelin,Energy XM2,Tubeless,88,185/70 R 14,"5,170","5,170",
-Maruti,Swift Dzire,ZDI (Diesel),Hankook,Optimo ME02,Tubeless,88,185/70 R 14,"4,987","4,987",
-Maruti,Swift Dzire,ZDI (Diesel),Maxxis,MAP3,Tubeless,88,185/70 R 14,"4,465","5,200",
 Maruti,Swift Dzire,ZDI (Diesel),Apollo,Amazer 4G Life,Tubeless,88,185/70 R 15,"5,429","5,429",4
 Maruti,Swift Dzire,ZDI (Diesel),Apollo,Ainac 4G,Tubeless,88,185/70 R 16,"5,359","5,359",5
 Maruti,Swift Dzire,ZDI (Diesel),CEAT,Milage X3,Tubeless,88,185/70 R 19,"4,123","4,123",3.9
 Maruti,Swift Dzire,ZDI (Diesel),CEAT,FuelSmart,Tubeless,88,185/70 R 20,"4,366","4,366",5
 Maruti,Swift Dzire,ZDI (Diesel),Apollo,Amazer 4G Life,Tubeless,88,185/70 R 21,"4,199","4,351",3.9
-Maruti,Swift Dzire,ZDI (Diesel),Apollo,Ainac 4G,Tubeless,88,185/70 R 22,"4,489","4,489",
-Maruti,Kizashi,CVT,Apollo,Aspire 4G,Tubeless,94,215/55 R 17,"10,880","10,880",
-Maruti,Swift Dzire,ZDI (Diesel),Apollo,Amazer 3G Maxx,Tubeless,88,185/70 R 23,"4,688","4,688",
-Maruti,Kizashi,CVT,Apollo,Ainac 4G,Tubeless,94,215/55 R 17,"9,891","9,891",
 Maruti,Swift Dzire,ZDI (Diesel),Apollo,Ainac 4G,Tubeless,88,185/70 R 24,"5,359","5,359",5
 Maruti,Swift Dzire,ZDI (Diesel),Apollo,Amazer 4G Life,Tubeless,88,185/70 R 25,"5,429","5,429",4
 Maruti,Swift Dzire,ZXI,Apollo,Amazer 4G Life,Tubeless,88,185/70 R 26,"4,199","4,351",3.9
-Maruti,Swift Dzire,ZXI,Apollo,Ainac 4G,Tubeless,88,185/70 R 27,"4,489","4,489",
 Maruti,Swift Dzire,ZDI (Petrol) New,Apollo,Ainac 4G,Tubeless,88,185/70 R 28,"5,359","5,359",5
 Maruti,Swift Dzire,ZDI (Petrol) New,Apollo,Amazer 4G Life,Tubeless,88,185/70 R 29,"5,429","5,429",4
 Maruti,Swift Dzire,LXI Option (Petrol),BridgeStone,B-Series B290,Tubeless,85,165/80 R 14,"4,250","4,250",3.7
@@ -67,10 +52,8 @@ Maruti,Swift Dzire,VXI (Petrol),BridgeStone,B-Series B290,Tubeless,85,165/80 R 1
 Maruti,Swift Dzire,VXI (Petrol),BridgeStone,Turanza T005,Tubeless,85,165/80 R 14,"4,272","4,272",3.8
 Maruti,Swift Dzire,VXI (Petrol),BridgeStone,S-Series S248,Tubeless,85,165/80 R 14,"4,300","4,300",5
 Maruti,Swift Dzire,VXI (Petrol),BridgeStone,Ecopia EP150,Tubeless,85,165/80 R 14,"4,150","4,150",5
-Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,Ecopia EP150,Tubeless,88,185/70 R 14,"5,000","5,000",
-Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,B-Series B290,Tubeless,88,185/70 R 14,"5,150","5,150",
 Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,Turanza T005,Tubeless,88,185/70 R 14,"5,196","5,196",4.8
-Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,B-series B250,Tubeless,88,185/70 R 14,"5,250","5,250",
+
 Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,Ecopia EP150,Tubeless,88,185/65 R 15,"6,450","6,450",4.5
 Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,B-Series B290,Tubeless,88,185/65 R 15,"6,050","6,050",4
 Maruti,Swift Dzire,ZDI (Diesel),BridgeStone,Turanza T005,Tubeless,88,185/65 R 15,"6,111","6,111",3

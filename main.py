@@ -5,7 +5,7 @@ import requests
 from statistics import mean 
 import sys
 from flask import Flask, render_template, request
-# import mainSQL as ms
+import mainSQL as ms
 
 app = Flask(__name__, static_folder='staticfiles')
 
@@ -49,35 +49,36 @@ def getMaxChocolateRating(companyLocation):
     dict1["max"]=max(max_ratings)
     return dict1
 
-def getCountries(score):		
-    countries_in = []		
-    countries = []		
-    getAllPartitions = getPartitions('Jane/HappinessData/WorldHappinessReport2016')		
+
+def getCountries(score):
+    countries_in = []
+    countries = []
+    getAllPartitions = getPartitions('Jane/HappinessData/WorldHappinessReport2016')
     dict1={}
-    list1 = []	
-    for key,value in getAllPartitions.items():	
+    list1 = []
+    for key,value in getAllPartitions.items():
         str1 = ""
         count1 = 0
-        partitoned_data = requests.get(value)		
-        data_list = partitoned_data.json()		
+        partitoned_data = requests.get(value)
+        data_list = partitoned_data.json()
 
-        if isinstance(data_list, type([])):		
-            data_list.remove(data_list[0])		
-            for l in data_list:		
-                if l['Happiness Score'] >= int(score):		
+        if isinstance(data_list, type([])):
+            data_list.remove(data_list[0])
+            for l in data_list:
+                if l['Happiness Score'] >= int(score):
                     countries_in.append(l['Country'])
                     count1+=1
                     str1+=str(1)+" "
-                    list1.append(count1)			
-        else:		
-            for l in data_list.values():		
-                if l['Happiness Score'] >= int(score):		
-                    countries_in.append(l['Country'])	
+                    list1.append(count1)
+        else:
+            for l in data_list.values():
+                if l['Happiness Score'] >= int(score):
+                    countries_in.append(l['Country'])
                     str1+=str(1)+" "
                     count1+=1
                     list1.append(count1)
         countries.extend(countries_in)
-        dict1[str1]= count1	
+        dict1[str1]= count1
     dict1["count"]=len(list1)
     return dict1	
 
@@ -286,10 +287,21 @@ def data():
         #         print(res)
         #         return render_template('chocRate.html', form_data=res)
 
+
         #     elif 'happyrate' in form_data and form_data.get('happyrate'):
         #         res = ms.getCountries(form_data.get('happyrate'))
         #         print(res)
         #         return render_template('happyrate.html', form_data=res)
+            elif 'happyrate' in form_data and form_data.get('happyrate'):
+                res = ms.getCountries(form_data.get('happyrate'))
+                print(res)
+                return render_template('happyrate.html', form_data=res)
+
+            elif 'loss' in form_data and form_data.get('loss'):
+                res = ms.getLossTyres(form_data.get('loss'))
+                print(res)
+                return render_template('loss.html', form_data=res)
+
    
         return render_template('success.html')
 
