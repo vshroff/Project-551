@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 import sys
 from flask import Flask, render_template, request
-#import mainSQL as ms
+import mainSQL as ms
 
 app = Flask(__name__, static_folder='staticfiles')
 
@@ -123,6 +123,7 @@ def loadData(name, filename, num_partitions):
                                                                                                                     name1)
         r1 = requests.put(url, data=q)
     path1 = partiton_path[:-1]
+
     path1 = "{" + path1 + "}"
     db = json.loads(path1)
     q = json.dumps(db)
@@ -201,7 +202,7 @@ def data():
                 return render_template('data.html', form_data=form_data)
 
             elif 'list' in form_data and form_data.get('list'):
-                res = ms.listFiles(form_data.get('list'))
+                res = ms.ls(form_data.get('list'))
                 return render_template('display.html', form_data=res)
 
             elif 'remove' in form_data and form_data.get('remove'):
@@ -220,6 +221,15 @@ def data():
                 res = ms.readPartitions(form_data.get('readpart'), form_data.get('partition'))
                 print(res)
                 return render_template('readpart.html', form_data=res)
+            elif 'chocrate' in form_data and form_data.get('chocrate'):
+                res = ms.getMaxChocolateRating(form_data.get('chocrate'))
+                print(res)
+                return render_template('chocRate.html', form_data=res)
+
+            elif 'happyrate' in form_data and form_data.get('happyrate'):
+                res = ms.getCountries(form_data.get('happyrate'))
+                print(res)
+                return render_template('happyrate.html', form_data=res)
    
         return render_template('success.html')
 
