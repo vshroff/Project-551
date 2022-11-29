@@ -4,7 +4,7 @@ import pandas as pd
 import requests
 import sys
 from flask import Flask, render_template, request
-import mainSQL as ms
+# import mainSQL as ms
 
 app = Flask(__name__, static_folder='staticfiles')
 
@@ -24,66 +24,71 @@ def getMaxChocolateRating(companyLocation):
     max_ratings = []
     getAllPartitions = getPartitions('sanjit/chocolate/flavors_of_cacao')
     count = 1
+    dict1={}
     for key,value in getAllPartitions.items():
         partitoned_data = requests.get(value)
         max_rating_partition = 0
         data_list = partitoned_data.json()
-
+        str1 = ""
         if isinstance(data_list, type([])):
             data_list.remove(data_list[0])
             for l in data_list:
                 if l['CompanyLocation'] == companyLocation:
-                    max_rating_partition = max(max_rating_partition, l['Rating'])
-                    max_ratings.append(max_rating_partition) #make it outside loop
+                    max_rating_partition = max(max_rating_partition, l['Rating']) #make it outside loop
+                    str1+=str(l['Rating'])+" "
         else:
             for l in data_list.values():
                 if l['CompanyLocation'] == companyLocation:
-                    max_rating_partition = max(max_rating_partition, l['Rating'])
-                    max_ratings.append(max_rating_partition)
-        count = count + 1
-    return max(max_ratings)
+                    max_rating_partition = max(max_rating_partition, l['Rating'])                  
+                    str1+=str(l['Rating'])+" "
+        max_ratings.append(max_rating_partition)
+        dict1[str1]=max_rating_partition
+        max_rating_partition = 0
+        count = count + 1   
+    dict1["max"]=max(max_ratings)
+    return dict1
 
-def getCountries(score):
-    countries_in = []
-    countries = []
-    getAllPartitions = getPartitions('Jane/HappinessData/WorldHappinessReport2016')
-    
-    for key,value in getAllPartitions.items():
-        partitoned_data = requests.get(value)
-        data_list = partitoned_data.json()
+def getCountries(score):		
+    countries_in = []		
+    countries = []		
+    getAllPartitions = getPartitions('Jane/HappinessData/WorldHappinessReport2016')		
+    		
+    for key,value in getAllPartitions.items():		
+        partitoned_data = requests.get(value)		
+        data_list = partitoned_data.json()		
 
-        if isinstance(data_list, type([])):
-            data_list.remove(data_list[0])
-            for l in data_list:
-                if l['Happiness Score'] >= int(score):
-                    countries_in.append(l['Country'])
-        else:
-            for l in data_list.values():
-                if l['Happiness Score'] >= int(score):
-                    countries_in.append(l['Country'])
-        countries.extend(countries_in)
-    return countries
+        if isinstance(data_list, type([])):		
+            data_list.remove(data_list[0])		
+            for l in data_list:		
+                if l['Happiness Score'] >= int(score):		
+                    countries_in.append(l['Country'])		
+        else:		
+            for l in data_list.values():		
+                if l['Happiness Score'] >= int(score):		
+                    countries_in.append(l['Country'])		
+        countries.extend(countries_in)		
+    return countries	
 
-def getLossTyres(carmodel):
-    tyres_in = []
-    tyres = []
-    getAllPartitions = getPartitions('John/cars/Car_Tyres_Dataset')
+def getLossTyres(carmodel):		
+    tyres_in = []		
+    tyres = []		
+    getAllPartitions = getPartitions('John/cars/Car_Tyres_Dataset')		
 
-    for key,value in getAllPartitions.items():
-        partitoned_data = requests.get(value)
-        data_list = partitoned_data.json()
+    for key,value in getAllPartitions.items():		
+        partitoned_data = requests.get(value)		
+        data_list = partitoned_data.json()		
 
-        if isinstance(data_list, type([])):
-            data_list.remove(data_list[0])
-            for l in data_list:
-                if float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:
-                    tyres_in.append(l['Tyre Brand'])
-        else:
-            for l in data_list.values():
-                if float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:
-                    tyres_in.append(l['Tyre Brand'])
-    tyres.extend(tyres_in)
-    out = [tyres[i] for i in range(len(tyres)) if i == tyres.index(tyres[i]) ]
+        if isinstance(data_list, type([])):		
+            data_list.remove(data_list[0])		
+            for l in data_list:		
+                if l['Model']==carmodel and float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:		
+                    tyres_in.append(l['Tyre Brand'])		
+        else:		
+            for l in data_list.values():		
+                if l['Model']==carmodel and float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:		
+                    tyres_in.append(l['Tyre Brand'])		
+    tyres.extend(tyres_in)		
+    out = [tyres[i] for i in range(len(tyres)) if i == tyres.index(tyres[i]) ]		
     return out
 
 
@@ -170,7 +175,7 @@ def success():
         return render_template("success.html", name=f.filename)
 
 
-@app.route('/data/', methods=['POST', 'GET'])
+@app.route('/data', methods=['POST', 'GET'])
 def data():
     if request.method == 'GET':
         return f"The URL /data is accessed directly. Try going to '/form' to submit form"
@@ -180,7 +185,7 @@ def data():
         if 'database' in form_data and form_data.get('database') == 'firebase':
             if 'MkdirName' in form_data and form_data.get('MkdirName'):
                 r = makedir(form_data.get('MkdirName'))
-
+    
             elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get('loadDataName') and form_data.get('filename')  and form_data.get('num_partitions') :
                 loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
                 return render_template('data.html', form_data=form_data)
@@ -209,7 +214,7 @@ def data():
                 res = getMaxChocolateRating(form_data.get('chocrate'))
                 print(res)
                 return render_template('chocRate.html', form_data=res)
-
+            
             elif 'happyrate' in form_data and form_data.get('happyrate'):
                 res = getCountries(form_data.get('happyrate'))
                 print(res)
@@ -219,44 +224,44 @@ def data():
                 res = getLossTyres(form_data.get('loss'))
                 print(res)
                 return render_template('loss.html', form_data=res)
-        else:
-            if 'MkdirName' in form_data and form_data.get('MkdirName'):
-                r = ms.makedir(form_data.get('MkdirName'))
+        # else:
+        #     if 'MkdirName' in form_data and form_data.get('MkdirName'):
+        #         r = ms.makedir(form_data.get('MkdirName'))
 
-            elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get(
-                    'loadDataName') and form_data.get('filename') and form_data.get('num_partitions'):
-                ms.loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
-                return render_template('data.html', form_data=form_data)
+        #     elif 'loadDataName' in form_data and 'filename' in form_data and 'num_partitions' in form_data and form_data.get(
+        #             'loadDataName') and form_data.get('filename') and form_data.get('num_partitions'):
+        #         ms.loadData(form_data.get('loadDataName'), form_data.get('filename'), int(form_data.get('num_partitions')))
+        #         return render_template('data.html', form_data=form_data)
 
-            elif 'list' in form_data and form_data.get('list'):
-                res = ms.ls(form_data.get('list'))
-                return render_template('display.html', form_data=res)
+        #     elif 'list' in form_data and form_data.get('list'):
+        #         res = ms.ls(form_data.get('list'))
+        #         return render_template('display.html', form_data=res)
 
-            elif 'remove' in form_data and form_data.get('remove'):
-                r = ms.rm(form_data.get('remove'))
-                print(r)
-            elif 'cat' in form_data and form_data.get('cat'):
-                res = ms.cat(form_data.get('cat'))
-                return render_template('cat.html', response=res)
+        #     elif 'remove' in form_data and form_data.get('remove'):
+        #         r = ms.rm(form_data.get('remove'))
+        #         print(r)
+        #     elif 'cat' in form_data and form_data.get('cat'):
+        #         res = ms.cat(form_data.get('cat'))
+        #         return render_template('cat.html', response=res)
 
-            elif 'getpart' in form_data and form_data.get('getpart'):
-                res = ms.getPartitions(form_data.get('getpart'))
-                return render_template('getpart.html', form_data=res)
+        #     elif 'getpart' in form_data and form_data.get('getpart'):
+        #         res = ms.getPartitions(form_data.get('getpart'))
+        #         return render_template('getpart.html', form_data=res)
 
-            elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get(
-                    'partition'):
-                res = ms.readPartitions(form_data.get('readpart'), form_data.get('partition'))
-                print(res)
-                return render_template('readpart.html', form_data=res)
-            elif 'chocrate' in form_data and form_data.get('chocrate'):
-                res = ms.getMaxChocolateRating(form_data.get('chocrate'))
-                print(res)
-                return render_template('chocRate.html', form_data=res)
+        #     elif 'readpart' in form_data and form_data.get('readpart') and 'partition' in form_data and form_data.get(
+        #             'partition'):
+        #         res = ms.readPartitions(form_data.get('readpart'), form_data.get('partition'))
+        #         print(res)
+        #         return render_template('readpart.html', form_data=res)
+        #     elif 'chocrate' in form_data and form_data.get('chocrate'):
+        #         res = ms.getMaxChocolateRating(form_data.get('chocrate'))
+        #         print(res)
+        #         return render_template('chocRate.html', form_data=res)
 
-            elif 'happyrate' in form_data and form_data.get('happyrate'):
-                res = ms.getCountries(form_data.get('happyrate'))
-                print(res)
-                return render_template('happyrate.html', form_data=res)
+        #     elif 'happyrate' in form_data and form_data.get('happyrate'):
+        #         res = ms.getCountries(form_data.get('happyrate'))
+        #         print(res)
+        #         return render_template('happyrate.html', form_data=res)
    
         return render_template('success.html')
 
