@@ -1,9 +1,10 @@
-<html>
-<head>
-<title>success</title>
-</head>
-<body>
-<p>Countries greater than provided score</p>
-<p>{{form_data}}</p>
-</body>
-</html>
+{% for key,value in form_data.items() %}
+{% if key == "count" %}
+<span><p> Reduce functionality output ie Total Count of Countries: {{value}}</p></span>
+{% else %}
+{% if key == "" %}
+{% else %}
+<span><p> Input for mapPartition {{key}}  Output for mapPartition ie Count of Countries {{value}}</p></span>
+{% endif %}
+{% endif %}
+{% endfor %}

@@ -2,6 +2,7 @@ import json
 import math
 import pandas as pd
 import requests
+from statistics import mean 
 import sys
 from flask import Flask, render_template, request
 # import mainSQL as ms
@@ -52,8 +53,11 @@ def getCountries(score):
     countries_in = []		
     countries = []		
     getAllPartitions = getPartitions('Jane/HappinessData/WorldHappinessReport2016')		
-    		
-    for key,value in getAllPartitions.items():		
+    dict1={}
+    list1 = []	
+    for key,value in getAllPartitions.items():	
+        str1 = ""
+        count1 = 0
         partitoned_data = requests.get(value)		
         data_list = partitoned_data.json()		
 
@@ -61,35 +65,59 @@ def getCountries(score):
             data_list.remove(data_list[0])		
             for l in data_list:		
                 if l['Happiness Score'] >= int(score):		
-                    countries_in.append(l['Country'])		
+                    countries_in.append(l['Country'])
+                    count1+=1
+                    str1+=str(1)+" "
+                    list1.append(count1)			
         else:		
             for l in data_list.values():		
                 if l['Happiness Score'] >= int(score):		
-                    countries_in.append(l['Country'])		
-        countries.extend(countries_in)		
-    return countries	
+                    countries_in.append(l['Country'])	
+                    str1+=str(1)+" "
+                    count1+=1
+                    list1.append(count1)
+        countries.extend(countries_in)
+        dict1[str1]= count1	
+    dict1["count"]=len(list1)
+    return dict1	
 
 def getLossTyres(carmodel):		
     tyres_in = []		
-    tyres = []		
+    tyres = []
+    dict1={}
+    avg1 = []		
     getAllPartitions = getPartitions('John/cars/Car_Tyres_Dataset')		
 
     for key,value in getAllPartitions.items():		
         partitoned_data = requests.get(value)		
         data_list = partitoned_data.json()		
-
+        avg_loss = 0
+        str1 = ""
         if isinstance(data_list, type([])):		
             data_list.remove(data_list[0])		
             for l in data_list:		
                 if l['Model']==carmodel and float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:		
-                    tyres_in.append(l['Tyre Brand'])		
+                    loss = abs(float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')))
+                    tyres_in.append(l['Tyre Brand'])
+                    avg_loss = mean([avg_loss, loss])
+                    str1+=str(loss)+" "		
         else:		
             for l in data_list.values():		
                 if l['Model']==carmodel and float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')) < 0:		
-                    tyres_in.append(l['Tyre Brand'])		
-    tyres.extend(tyres_in)		
-    out = [tyres[i] for i in range(len(tyres)) if i == tyres.index(tyres[i]) ]		
-    return out
+                    loss = abs(float(l['Selling Price'].replace(',','')) - float(l['Original Price'].replace(',','')))
+                    tyres_in.append(l['Tyre Brand'])
+                    avg_loss = mean([avg_loss, loss])
+                    str1+=str(loss)+" "
+
+        dict1[str1]= avg_loss
+        if avg_loss != 0:
+            avg1.append(avg_loss)
+    print("avggggg")
+    print(avg1)
+    dict1["avg"]=mean(avg1)
+    # tyres.extend(tyres_in)		
+    # out = [tyres[i] for i in range(len(tyres)) if i == tyres.index(tyres[i]) ]		
+    return dict1
 
 
 
